@@ -34,6 +34,14 @@
   .sel-wrap::after{content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #888;pointer-events:none;}
   .hint{font-size:11px;color:#888;margin-top:4px;}
   .jgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .fak-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
+  .fak-item{border:.5px solid #e0e0e0;border-radius:10px;padding:12px 14px;cursor:pointer;background:#f9f9f9;transition:border-color .15s,background .15s;}
+  .fak-item:hover{border-color:#8B1A1A;background:#fff;}
+  .fak-item.sel{border-color:#8B1A1A;background:#FDF0F0;}
+  .fak-icon{font-size:20px;margin-bottom:4px;}
+  .fak-name{font-size:13px;font-weight:600;color:#222;line-height:1.3;}
+  .fak-count{font-size:11px;color:#888;margin-top:2px;}
+  @media(max-width:500px){.fak-grid{grid-template-columns:1fr;}}
   .jitem{border:.5px solid #e0e0e0;border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;background:#f9f9f9;transition:border-color .15s,background .15s;}
   .jitem:hover{border-color:#8B1A1A;background:#fff;}
   .jitem.sel{border-color:#8B1A1A;background:#FDF0F0;}
@@ -133,10 +141,14 @@
     </div>
 
     <div class="card">
-      <div class="sec-label">Pilihan Program Studi</div>
-      <p style="font-size:13px;color:#888;margin-bottom:1rem;">Pilih satu program studi yang paling sesuai.</p>
-      <div class="jgrid" id="jgrid">
-        <!-- diisi JS -->
+      <div class="sec-label">Pilihan Fakultas & Program Studi</div>
+      <div class="field">
+        <label>Pilih Fakultas <span class="req">*</span></label>
+        <div class="fak-grid" id="fak-grid"></div>
+      </div>
+      <div class="field" id="prodi-field" style="display:none;">
+        <label>Pilih Program Studi <span class="req">*</span></label>
+        <div class="jgrid" id="jgrid"></div>
       </div>
     </div>
 
@@ -162,24 +174,74 @@
 const SUPABASE_URL = 'https://tnupudkdljjnuzwcbwky.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudXB1ZGtkbGpqbnV6d2Nid2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NTgwMjUsImV4cCI6MjA5NTEzNDAyNX0.YYtiPN8DH0TVBauGkfEt-tLhWCGb5pLF4TzVQSUpgJY';
 
-// ── Isi pilihan program studi ──
-const jurusan = [
-  "Ilmu Politik","Hukum","Administrasi Negara","Ilmu Roleplay",
-  "Teknologi Nuklir","Teknologi Rekayasa Kimia","Teknologi Rekayasa Fisika",
-  "Ekonomi","Ilmu Pemerintahan","Ilmu Pengetahuan Alam","Ilmu Negara Fiksi","Teknik Informatika"
+// ── Data Fakultas & Prodi ──
+const fakultasData = [
+  {
+    nama: "FISIP",
+    label: "Fak. Ilmu Sosial & Politik",
+    icon: "🏛️",
+    prodi: ["Ilmu Politik","Ilmu Pemerintahan","Ilmu Negara Fiksi","Ilmu Roleplay"]
+  },
+  {
+    nama: "Hukum",
+    label: "Fak. Hukum",
+    icon: "⚖️",
+    prodi: ["Hukum"]
+  },
+  {
+    nama: "Ekonomi",
+    label: "Fak. Ekonomi & Bisnis",
+    icon: "💰",
+    prodi: ["Ekonomi"]
+  },
+  {
+    nama: "FANIP",
+    label: "Fak. Adm. Negara & Ilmu Pertahanan",
+    icon: "🏢",
+    prodi: ["Administrasi Negara","Ilmu Pertahanan"]
+  },
+  {
+    nama: "Saintek",
+    label: "Fak. Sains & Teknologi",
+    icon: "🔬",
+    prodi: ["Teknologi Nuklir","Teknologi Rekayasa Kimia","Teknologi Rekayasa Fisika","Ilmu Pengetahuan Alam","Teknik Informatika"]
+  }
 ];
-const grid = document.getElementById('jgrid');
-jurusan.forEach(function(j, i) {
+
+var selectedFakultas = null;
+
+// Render fakultas
+var fakGrid = document.getElementById('fak-grid');
+fakultasData.forEach(function(fak, fi) {
   var d = document.createElement('div');
-  d.className = 'jitem';
-  d.innerHTML = '<input type="radio" name="jur" value="' + j + '" id="j' + i + '"><label for="j' + i + '" class="jtext"><span class="jnum">' + String(i+1).padStart(2,'0') + '</span>' + j + '</label>';
+  d.className = 'fak-item';
+  d.innerHTML = '<div class="fak-icon">' + fak.icon + '</div><div class="fak-name">' + fak.label + '</div><div class="fak-count">' + fak.prodi.length + ' program studi</div>';
   d.addEventListener('click', function() {
-    document.getElementById('j' + i).checked = true;
-    document.querySelectorAll('.jitem').forEach(function(el){ el.classList.remove('sel'); });
+    document.querySelectorAll('.fak-item').forEach(function(el){ el.classList.remove('sel'); });
     d.classList.add('sel');
+    selectedFakultas = fak.nama;
+    renderProdi(fak.prodi);
   });
-  grid.appendChild(d);
+  fakGrid.appendChild(d);
 });
+
+function renderProdi(prodiList) {
+  var grid = document.getElementById('jgrid');
+  grid.innerHTML = '';
+  document.getElementById('prodi-field').style.display = 'block';
+  prodiList.forEach(function(j, i) {
+    var d = document.createElement('div');
+    d.className = 'jitem';
+    d.innerHTML = '<input type="radio" name="jur" value="' + j + '" id="j' + i + '"><label for="j' + i + '" class="jtext"><span class="jnum">' + String(i+1).padStart(2,'0') + '</span>' + j + '</label>';
+    d.addEventListener('click', function() {
+      document.getElementById('j' + i).checked = true;
+      document.querySelectorAll('.jitem').forEach(function(el){ el.classList.remove('sel'); });
+      d.classList.add('sel');
+    });
+    grid.appendChild(d);
+  });
+  document.getElementById('prodi-field').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
 
 // ── Foto ──
 var fotoDataURL = null;
@@ -244,12 +306,13 @@ async function submitForm() {
   if (!nama) { showErr('Harap isi nama lengkap.'); return; }
   if (!wa)   { showErr('Harap isi nomor WhatsApp.'); return; }
   if (!sekolah) { showErr('Harap pilih sekolah asal.'); return; }
+  if (!selectedFakultas) { showErr('Harap pilih fakultas terlebih dahulu.'); return; }
   if (!jSel) { showErr('Harap pilih program studi.'); return; }
   if (!fotoDataURL) { showErr('Harap upload foto pendaftaran.'); return; }
   setLoading(true);
   var nomor = getNomor();
   try {
-    await saveToSupabase({nama: nama, no_wa: wa, sekolah: sekolah, program_studi: jSel.value, no_pendaftaran: nomor});
+    await saveToSupabase({nama: nama, no_wa: wa, sekolah: sekolah, fakultas: selectedFakultas, program_studi: jSel.value, no_pendaftaran: nomor});
     generateCertificate(nama, wa, sekolah, jSel.value, nomor, fotoDataURL);
     document.getElementById('form-section').style.display = 'none';
     document.getElementById('success-section').style.display = 'block';
