@@ -1,8 +1,16 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Formulir SNBP - University of UN</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;500;600&display=swap');
   *{box-sizing:border-box;margin:0;padding:0;}
-  .wrap{font-family:'Source Sans 3',sans-serif;color:var(--color-text-primary);padding-bottom:2rem;}
-  .hero{background:#8B1A1A;border-radius:var(--border-radius-lg);padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+  body{background:#f5f5f5;font-family:'Source Sans 3',sans-serif;}
+  .wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem 2rem;}
+  .hero{background:#8B1A1A;border-radius:16px;padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
   .logo-row{display:flex;align-items:center;gap:14px;margin-bottom:1rem;}
   .logo-circle{width:60px;height:60px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid #C9A84C;}
   .logo-circle img{width:56px;height:56px;object-fit:contain;}
@@ -11,55 +19,56 @@
   .hero-sub{color:#F0C040;font-size:12px;letter-spacing:2px;text-transform:uppercase;}
   .badge-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap;}
   .badge{background:rgba(255,255,255,0.09);border:0.5px solid rgba(255,255,255,0.18);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,0.75);}
-  .info-box{background:#FEF3E2;border:0.5px solid #F0C040;border-radius:var(--border-radius-md);padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:1rem;}
+  .info-box{background:#FEF3E2;border:0.5px solid #F0C040;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:1rem;}
   .info-box i{color:#8B1A1A;font-size:18px;flex-shrink:0;margin-top:1px;}
   .info-box p{font-size:13px;color:#5a3a00;line-height:1.5;}
-  .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1rem;}
-  .sec-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:.5px solid var(--color-border-tertiary);}
+  .card{background:#fff;border:0.5px solid #e0e0e0;border-radius:16px;padding:1.5rem;margin-bottom:1rem;}
+  .sec-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:.5px solid #e0e0e0;}
   .field{margin-bottom:1rem;}
   .field:last-child{margin-bottom:0;}
-  .field label{display:block;font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px;}
+  .field label{display:block;font-size:13px;font-weight:500;color:#555;margin-bottom:6px;}
   .req{color:#8B1A1A;margin-left:2px;}
-  .field input,.field select{width:100%;height:42px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);font-family:'Source Sans 3',sans-serif;font-size:14px;padding:0 12px;outline:none;transition:border-color .15s;appearance:none;-webkit-appearance:none;}
+  .field input,.field select{width:100%;height:42px;border:.5px solid #ccc;border-radius:10px;background:#f9f9f9;color:#222;font-family:'Source Sans 3',sans-serif;font-size:14px;padding:0 12px;outline:none;transition:border-color .15s;appearance:none;-webkit-appearance:none;}
   .field input:focus,.field select:focus{border-color:#8B1A1A;box-shadow:0 0 0 3px rgba(139,26,26,0.1);}
   .sel-wrap{position:relative;}
-  .sel-wrap::after{content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--color-text-secondary);pointer-events:none;}
-  .hint{font-size:11px;color:var(--color-text-secondary);margin-top:4px;}
+  .sel-wrap::after{content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #888;pointer-events:none;}
+  .hint{font-size:11px;color:#888;margin-top:4px;}
   .jgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .jitem{border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;background:var(--color-background-secondary);transition:border-color .15s,background .15s;}
-  .jitem:hover{border-color:#8B1A1A;background:var(--color-background-primary);}
+  .jitem{border:.5px solid #e0e0e0;border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;background:#f9f9f9;transition:border-color .15s,background .15s;}
+  .jitem:hover{border-color:#8B1A1A;background:#fff;}
   .jitem.sel{border-color:#8B1A1A;background:#FDF0F0;}
   .jitem input[type=radio]{margin-top:2px;accent-color:#8B1A1A;flex-shrink:0;width:15px;height:15px;}
-  .jtext{font-size:13px;line-height:1.4;color:var(--color-text-primary);cursor:pointer;}
-  .jnum{font-size:11px;color:var(--color-text-secondary);display:block;}
-  .btn{width:100%;height:50px;background:#8B1A1A;color:#fff;border:none;border-radius:var(--border-radius-md);font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.5px;transition:background .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .jtext{font-size:13px;line-height:1.4;color:#222;cursor:pointer;}
+  .jnum{font-size:11px;color:#888;display:block;}
+  .btn{width:100%;height:50px;background:#8B1A1A;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.5px;transition:background .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px;}
   .btn:hover{background:#6e1414;}
   .btn:active{transform:scale(.99);}
   .btn:disabled{background:#aaa;cursor:not-allowed;}
-  .footer{text-align:center;font-size:11px;color:var(--color-text-secondary);margin-top:1rem;}
-  .err-box{background:#FDF0F0;border:.5px solid #f0b0b0;border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;color:#8B1A1A;margin-bottom:1rem;display:none;}
+  .footer{text-align:center;font-size:11px;color:#888;margin-top:1rem;}
+  .err-box{background:#FDF0F0;border:.5px solid #f0b0b0;border-radius:10px;padding:10px 14px;font-size:13px;color:#8B1A1A;margin-bottom:1rem;display:none;}
   .success-section{display:none;text-align:center;padding:2rem 0;}
   .success-icon{width:64px;height:64px;border-radius:50%;background:#EAF3DE;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
   .success-icon i{font-size:30px;color:#3B6D11;}
-  .success-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--color-text-primary);margin-bottom:.5rem;}
-  .success-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;}
-  .dl-note{margin-top:1.5rem;padding:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:13px;color:var(--color-text-secondary);}
-  .db-note{margin-top:.75rem;padding:.75rem 1rem;background:#EAF3DE;border:.5px solid #a0d090;border-radius:var(--border-radius-md);font-size:13px;color:#27500A;}
+  .success-title{font-family:'Playfair Display',serif;font-size:22px;color:#222;margin-bottom:.5rem;}
+  .success-sub{font-size:14px;color:#555;line-height:1.6;}
+  .dl-note{margin-top:1.5rem;padding:1rem;background:#f5f5f5;border-radius:10px;font-size:13px;color:#555;}
+  .db-note{margin-top:.75rem;padding:.75rem 1rem;background:#EAF3DE;border:.5px solid #a0d090;border-radius:10px;font-size:13px;color:#27500A;}
   .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  .photo-upload-box{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:16px;text-align:center;cursor:pointer;background:var(--color-background-secondary);transition:border-color .15s;}
+  .photo-upload-box{border:1.5px dashed #ccc;border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#f9f9f9;transition:border-color .15s;}
   .photo-upload-box:hover{border-color:#8B1A1A;}
-  .photo-preview{width:100px;height:120px;object-fit:cover;border-radius:6px;border:1px solid var(--color-border-secondary);display:none;margin:0 auto 8px;}
-  .photo-upload-label{font-size:13px;color:var(--color-text-secondary);display:block;}
-  .photo-icon{font-size:32px;color:var(--color-text-secondary);margin-bottom:6px;}
+  .photo-preview{width:100px;height:120px;object-fit:cover;border-radius:6px;border:1px solid #ddd;display:none;margin:0 auto 8px;}
+  .photo-upload-label{font-size:13px;color:#888;display:block;}
+  .photo-icon{font-size:32px;color:#aaa;margin-bottom:6px;}
   @media(max-width:500px){.jgrid{grid-template-columns:1fr;}}
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <div class="hero">
     <div class="logo-row">
       <div class="logo-circle">
-        <img id="logo-img" src="" alt="Logo University of UN" />
+        <img id="logo-img" src="https://www.image2url.com/r2/default/images/1779595336563-4293cb73-bbbb-4416-b6aa-b520d0f578e7.jpeg" alt="Logo University of UN" crossorigin="anonymous"/>
       </div>
       <div>
         <div class="logo-text-small">Seleksi Nasional Berdasarkan Prestasi</div>
@@ -76,7 +85,7 @@
 
   <div id="form-section">
     <div class="info-box">
-      <i class="ti ti-info-circle" aria-hidden="true"></i>
+      <i class="ti ti-info-circle"></i>
       <p>Data tersimpan otomatis ke database resmi. Setelah submit, <strong>kartu pendaftaran</strong> langsung terunduh dengan logo universitas.</p>
     </div>
     <div class="err-box" id="err-box"></div>
@@ -85,11 +94,11 @@
       <div class="sec-label">Data Diri Calon Mahasiswa</div>
       <div class="field">
         <label>Nama Lengkap <span class="req">*</span></label>
-        <input type="text" id="nama" placeholder="Masukkan nama sesuai ijazah" />
+        <input type="text" id="nama" placeholder="Masukkan nama sesuai ijazah"/>
       </div>
       <div class="field">
         <label>Nomor WhatsApp <span class="req">*</span></label>
-        <input type="tel" id="wa" placeholder="Contoh: 08123456789" />
+        <input type="tel" id="wa" placeholder="Contoh: 08123456789"/>
         <div class="hint">Nomor aktif — informasi kelulusan dikirim ke nomor ini</div>
       </div>
     </div>
@@ -99,11 +108,11 @@
       <div class="field">
         <label>Upload Foto <span class="req">*</span></label>
         <div class="photo-upload-box" id="photo-box" onclick="document.getElementById('foto-input').click()">
-          <img id="photo-preview" class="photo-preview" alt="Preview foto" />
-          <div class="photo-icon"><i class="ti ti-camera"></i></div>
+          <img id="photo-preview" class="photo-preview" alt="Preview foto"/>
+          <div class="photo-icon" id="photo-icon"><i class="ti ti-camera"></i></div>
           <span class="photo-upload-label" id="photo-label">Klik untuk upload foto (format JPG/PNG, maks. 2MB)</span>
         </div>
-        <input type="file" id="foto-input" accept="image/*" style="display:none" onchange="handlePhoto(this)" />
+        <input type="file" id="foto-input" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
         <div class="hint">Foto akan tampil di kartu pendaftaran — gunakan foto formal</div>
       </div>
     </div>
@@ -127,322 +136,283 @@
 
     <div class="card">
       <div class="sec-label">Pilihan Program Studi</div>
-      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem;">Pilih satu program studi yang paling sesuai.</p>
-      <div class="jgrid" id="jgrid"></div>
+      <p style="font-size:13px;color:#888;margin-bottom:1rem;">Pilih satu program studi yang paling sesuai.</p>
+      <div class="jgrid" id="jgrid">
+        <!-- diisi JS -->
+      </div>
     </div>
 
     <button class="btn" id="submit-btn" onclick="submitForm()">
       <div class="spinner" id="spinner"></div>
-      <i class="ti ti-send" aria-hidden="true" id="send-icon"></i>
+      <i class="ti ti-send" id="send-icon"></i>
       <span id="btn-text">Kirim Pendaftaran &amp; Unduh Kartu</span>
     </button>
     <div class="footer">&copy; 2026 University of UN — Seleksi Nasional Berdasarkan Prestasi</div>
   </div>
 
   <div class="success-section" id="success-section">
-    <div class="success-icon"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+    <div class="success-icon"><i class="ti ti-circle-check"></i></div>
     <div class="success-title">Pendaftaran Berhasil!</div>
     <p class="success-sub" id="success-detail"></p>
-    <div class="dl-note"><i class="ti ti-download" aria-hidden="true" style="vertical-align:-2px;margin-right:4px"></i>Kartu pendaftaran resmi sudah terunduh ke perangkatmu.</div>
-    <div class="db-note"><i class="ti ti-database" aria-hidden="true" style="vertical-align:-2px;margin-right:4px"></i>Data tersimpan di database University of UN.</div>
+    <div class="dl-note"><i class="ti ti-download" style="vertical-align:-2px;margin-right:4px"></i>Kartu pendaftaran resmi sudah terunduh ke perangkatmu.</div>
+    <div class="db-note"><i class="ti ti-database" style="vertical-align:-2px;margin-right:4px"></i>Data tersimpan di database University of UN.</div>
   </div>
 </div>
 <canvas id="cert-canvas" style="display:none;"></canvas>
 
 <script>
+const SUPABASE_URL = 'https://tnupudkdljjnuzwcbwky.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudXB1ZGtkbGpqbnV6d2Nid2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NTgwMjUsImV4cCI6MjA5NTEzNDAyNX0.YYtiPN8DH0TVBauGkfEt-tLhWCGb5pLF4TzVQSUpgJY';
 
-document.getElementById('logo-img').src = 'https://www.image2url.com/r2/default/images/1779595336563-4293cb73-bbbb-4416-b6aa-b520d0f578e7.jpeg';
-
-const SUPABASE_URL='https://tnupudkdljjnuzwcbwky.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudXB1ZGtkbGpqbnV6d2Nid2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NTgwMjUsImV4cCI6MjA5NTEzNDAyNX0.YYtiPN8DH0TVBauGkfEt-tLhWCGb5pLF4TzVQSUpgJY';
-
-const jurusan=["Ilmu Politik","Hukum","Administrasi Negara","Ilmu Roleplay","Teknologi Nuklir","Teknologi Rekayasa Kimia","Teknologi Rekayasa Fisika","Ekonomi","Ilmu Pemerintahan","Ilmu Pengetahuan Alam","Ilmu Negara Fiksi","Teknik Informatika"];
-const grid=document.getElementById('jgrid');
-jurusan.forEach((j,i)=>{
-  const d=document.createElement('div');
-  d.className='jitem';
-  d.innerHTML=`<input type="radio" name="jur" value="${j}" id="j${i}"><label for="j${i}" class="jtext"><span class="jnum">${String(i+1).padStart(2,'0')}</span>${j}</label>`;
-  d.addEventListener('click',()=>{
-    document.getElementById('j'+i).checked=true;
-    document.querySelectorAll('.jitem').forEach(el=>el.classList.remove('sel'));
+// ── Isi pilihan program studi ──
+const jurusan = [
+  "Ilmu Politik","Hukum","Administrasi Negara","Ilmu Roleplay",
+  "Teknologi Nuklir","Teknologi Rekayasa Kimia","Teknologi Rekayasa Fisika",
+  "Ekonomi","Ilmu Pemerintahan","Ilmu Pengetahuan Alam","Ilmu Negara Fiksi","Teknik Informatika"
+];
+const grid = document.getElementById('jgrid');
+jurusan.forEach(function(j, i) {
+  var d = document.createElement('div');
+  d.className = 'jitem';
+  d.innerHTML = '<input type="radio" name="jur" value="' + j + '" id="j' + i + '"><label for="j' + i + '" class="jtext"><span class="jnum">' + String(i+1).padStart(2,'0') + '</span>' + j + '</label>';
+  d.addEventListener('click', function() {
+    document.getElementById('j' + i).checked = true;
+    document.querySelectorAll('.jitem').forEach(function(el){ el.classList.remove('sel'); });
     d.classList.add('sel');
   });
   grid.appendChild(d);
 });
 
-let fotoDataURL = null;
+// ── Foto ──
+var fotoDataURL = null;
 
-function handlePhoto(input){
-  const file = input.files[0];
-  if(!file) return;
-  if(file.size > 2*1024*1024){alert('Ukuran foto maksimal 2MB.');input.value='';return;}
-  const reader = new FileReader();
-  reader.onload = function(e){
+function handlePhoto(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { alert('Ukuran foto maksimal 2MB.'); input.value = ''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
     fotoDataURL = e.target.result;
-    const preview = document.getElementById('photo-preview');
+    var preview = document.getElementById('photo-preview');
     preview.src = fotoDataURL;
     preview.style.display = 'block';
-    document.querySelector('.photo-icon').style.display = 'none';
+    document.getElementById('photo-icon').style.display = 'none';
     document.getElementById('photo-label').textContent = file.name;
   };
   reader.readAsDataURL(file);
 }
 
-
-  const now=new Date();
-  return 'UN/SNBP/'+now.getFullYear()+'/'+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9000)+1000);
-}
-function showErr(msg){const b=document.getElementById('err-box');b.textContent=msg;b.style.display='block';b.scrollIntoView({behavior:'smooth',block:'nearest'});}
-function setLoading(on){
-  const btn=document.getElementById('submit-btn');
-  document.getElementById('spinner').style.display=on?'block':'none';
-  document.getElementById('send-icon').style.display=on?'none':'inline';
-  document.getElementById('btn-text').textContent=on?'Menyimpan data...':'Kirim Pendaftaran & Unduh Kartu';
-  btn.disabled=on;
+// ── Helpers ──
+function getNomor() {
+  var now = new Date();
+  return 'UN/SNBP/' + now.getFullYear() + '/' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(Math.floor(Math.random()*9000)+1000);
 }
 
-async function saveToSupabase(data){
-  const res=await fetch(SUPABASE_URL+'/rest/v1/pendaftaran',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
-    body:JSON.stringify(data)
+function showErr(msg) {
+  var b = document.getElementById('err-box');
+  b.textContent = msg;
+  b.style.display = 'block';
+  b.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function setLoading(on) {
+  document.getElementById('spinner').style.display = on ? 'block' : 'none';
+  document.getElementById('send-icon').style.display = on ? 'none' : 'inline';
+  document.getElementById('btn-text').textContent = on ? 'Menyimpan data...' : 'Kirim Pendaftaran & Unduh Kartu';
+  document.getElementById('submit-btn').disabled = on;
+}
+
+async function saveToSupabase(data) {
+  var res = await fetch(SUPABASE_URL + '/rest/v1/pendaftaran', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(data)
   });
-  if(!res.ok){const err=await res.text();throw new Error(err);}
+  if (!res.ok) { var err = await res.text(); throw new Error(err); }
   return true;
 }
 
-async function submitForm(){
-  const nama=document.getElementById('nama').value.trim();
-  const wa=document.getElementById('wa').value.trim();
-  const sekolahEl=document.getElementById('sekolah');
-  const sekolah=sekolahEl.value;
-  const jSel=document.querySelector('input[name="jur"]:checked');
-  document.getElementById('err-box').style.display='none';
-  if(!nama){showErr('Harap isi nama lengkap.');return;}
-  if(!wa){showErr('Harap isi nomor WhatsApp.');return;}
-  if(!sekolah){showErr('Harap pilih sekolah asal.');return;}
-  if(!jSel){showErr('Harap pilih program studi.');return;}
-  if(!fotoDataURL){showErr('Harap upload foto pendaftaran.');return;}
+async function submitForm() {
+  var nama = document.getElementById('nama').value.trim();
+  var wa = document.getElementById('wa').value.trim();
+  var sekolah = document.getElementById('sekolah').value;
+  var jSel = document.querySelector('input[name="jur"]:checked');
+  document.getElementById('err-box').style.display = 'none';
+  if (!nama) { showErr('Harap isi nama lengkap.'); return; }
+  if (!wa)   { showErr('Harap isi nomor WhatsApp.'); return; }
+  if (!sekolah) { showErr('Harap pilih sekolah asal.'); return; }
+  if (!jSel) { showErr('Harap pilih program studi.'); return; }
+  if (!fotoDataURL) { showErr('Harap upload foto pendaftaran.'); return; }
   setLoading(true);
-  const nomor=getNomor();
-  try{
-    await saveToSupabase({nama,no_wa:wa,sekolah,program_studi:jSel.value,no_pendaftaran:nomor});
-    generateCertificate(nama,wa,sekolah,jSel.value,nomor,fotoDataURL);
-    document.getElementById('form-section').style.display='none';
-    document.getElementById('success-section').style.display='block';
-    document.getElementById('success-detail').innerHTML=`<strong>${nama}</strong><br>dari <strong>${sekolah}</strong><br>Program Studi: <strong>${jSel.value}</strong><br><br>No. Pendaftaran: <code>${nomor}</code>`;
-  }catch(e){
+  var nomor = getNomor();
+  try {
+    await saveToSupabase({nama: nama, no_wa: wa, sekolah: sekolah, program_studi: jSel.value, no_pendaftaran: nomor});
+    generateCertificate(nama, wa, sekolah, jSel.value, nomor, fotoDataURL);
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('success-section').style.display = 'block';
+    document.getElementById('success-detail').innerHTML = '<strong>' + nama + '</strong><br>dari <strong>' + sekolah + '</strong><br>Program Studi: <strong>' + jSel.value + '</strong><br><br>No. Pendaftaran: <code>' + nomor + '</code>';
+  } catch(e) {
     setLoading(false);
-    showErr('Gagal menyimpan: '+e.message+'. Pastikan tabel "pendaftaran" sudah dibuat di Supabase.');
+    showErr('Gagal menyimpan: ' + e.message);
   }
 }
 
-function generateCertificate(nama,wa,sekolah,prodi,nomor,fotoSrc){
-  const W=794,H=1123;
-  const canvas=document.getElementById('cert-canvas');
-  canvas.width=W;canvas.height=H;
-  const ctx=canvas.getContext('2d');
+// ── Generate Kartu ──
+function generateCertificate(nama, wa, sekolah, prodi, nomor, fotoSrc) {
+  var W = 794, H = 1123;
+  var canvas = document.getElementById('cert-canvas');
+  canvas.width = W; canvas.height = H;
+  var ctx = canvas.getContext('2d');
 
-  // Background putih krem
-  ctx.fillStyle='#FFFDF6';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = '#FFFDF6'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle = '#8B1A1A'; ctx.lineWidth = 3; ctx.strokeRect(18,18,W-36,H-36);
+  ctx.strokeStyle = '#C9A84C'; ctx.lineWidth = 1; ctx.strokeRect(26,26,W-52,H-52);
+  ctx.fillStyle = '#8B1A1A'; ctx.fillRect(26,26,W-52,100);
+  ctx.strokeStyle = '#C9A84C'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(26,30); ctx.lineTo(W-26,30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(26,122); ctx.lineTo(W-26,122); ctx.stroke();
 
-  // Border luar merah
-  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=3;ctx.strokeRect(18,18,W-36,H-36);
-  // Border dalam emas
-  ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;ctx.strokeRect(26,26,W-52,H-52);
-
-  // Band merah atas
-  ctx.fillStyle='#8B1A1A';ctx.fillRect(26,26,W-52,100);
-
-  // Garis emas di band
-  ctx.strokeStyle='#C9A84C';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(26,30);ctx.lineTo(W-26,30);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(26,122);ctx.lineTo(W-26,122);ctx.stroke();
-
-  // Diamond ornamen pojok
   function diamond(x,y,s,c){ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x,y-s);ctx.lineTo(x+s,y);ctx.lineTo(x,y+s);ctx.lineTo(x-s,y);ctx.closePath();ctx.fill();}
-  diamond(55,65,12,'#C9A84C');diamond(W-55,65,12,'#C9A84C');
+  diamond(55,65,12,'#C9A84C'); diamond(W-55,65,12,'#C9A84C');
 
-  // Lingkaran putih untuk logo
-  ctx.save();
-  ctx.beginPath();ctx.arc(W/2,75,38,0,Math.PI*2);
-  ctx.fillStyle='#fff';ctx.fill();
-  ctx.restore();
-  ctx.strokeStyle='#C9A84C';ctx.lineWidth=2;
-  ctx.beginPath();ctx.arc(W/2,75,40,0,Math.PI*2);ctx.stroke();
+  ctx.save(); ctx.beginPath(); ctx.arc(W/2,75,38,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill(); ctx.restore();
+  ctx.strokeStyle='#C9A84C'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(W/2,75,40,0,Math.PI*2); ctx.stroke();
 
-  // Load & draw ONLY logo image (lambang universitas)
-  const logoImg=new Image();
-  logoImg.crossOrigin='anonymous';
-  logoImg.onload=()=>{
-    ctx.save();
-    ctx.beginPath();ctx.arc(W/2,75,37,0,Math.PI*2);ctx.clip();
-    ctx.drawImage(logoImg,W/2-37,75-37,74,74);
-    ctx.restore();
-    drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
+  var logoImg = new Image();
+  logoImg.crossOrigin = 'anonymous';
+  logoImg.onload = function() {
+    ctx.save(); ctx.beginPath(); ctx.arc(W/2,75,37,0,Math.PI*2); ctx.clip();
+    ctx.drawImage(logoImg,W/2-37,38,74,74); ctx.restore();
+    drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
   };
-  logoImg.onerror=()=>{
-    ctx.fillStyle='#8B1A1A';ctx.font='bold 24px serif';ctx.textAlign='center';ctx.fillText('UN',W/2,82);
-    drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
+  logoImg.onerror = function() {
+    ctx.fillStyle='#8B1A1A'; ctx.font='bold 24px serif'; ctx.textAlign='center'; ctx.fillText('UN',W/2,82);
+    drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
   };
-
-  // Gunakan logo yang di-embed
-  const pageImg=document.getElementById('logo-img');
-  if(pageImg&&pageImg.complete&&pageImg.naturalWidth>0){logoImg.src=pageImg.src;}
-  else{logoImg.onerror();}
+  logoImg.src = document.getElementById('logo-img').src;
 }
 
-function drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc){
-  ctx.textAlign='center';
-  // Teks di band merah
-  ctx.fillStyle='#FFE87A';ctx.font='bold 19px Georgia,serif';
-  ctx.fillText('UNIVERSITY OF UN',W/2,50);
-  ctx.fillStyle='rgba(255,255,255,0.72)';ctx.font='10px sans-serif';
-  ctx.fillText('SELEKSI NASIONAL BERDASARKAN PRESTASI',W/2,118);
+function drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc) {
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#FFE87A'; ctx.font = 'bold 19px Georgia,serif';
+  ctx.fillText('UNIVERSITY OF UN', W/2, 50);
+  ctx.fillStyle = 'rgba(255,255,255,0.72)'; ctx.font = '10px sans-serif';
+  ctx.fillText('SELEKSI NASIONAL BERDASARKAN PRESTASI', W/2, 118);
 
-  // Judul kartu
-  ctx.fillStyle='#8B1A1A';ctx.font='bold 24px Georgia,serif';
-  ctx.fillText('KARTU TANDA PENDAFTARAN',W/2,190);
-  ctx.fillStyle='#C9A84C';ctx.font='12px sans-serif';
-  ctx.fillText('SNBP — TAHUN AKADEMIK 2026/2027',W/2,210);
+  ctx.fillStyle = '#8B1A1A'; ctx.font = 'bold 24px Georgia,serif';
+  ctx.fillText('KARTU TANDA PENDAFTARAN', W/2, 190);
+  ctx.fillStyle = '#C9A84C'; ctx.font = '12px sans-serif';
+  ctx.fillText('SNBP — TAHUN AKADEMIK 2026/2027', W/2, 210);
 
-  // Divider emas
-  ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(80,225);ctx.lineTo(W-80,225);ctx.stroke();
-  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=0.5;
-  ctx.beginPath();ctx.moveTo(80,229);ctx.lineTo(W-80,229);ctx.stroke();
+  ctx.strokeStyle='#C9A84C'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(80,225); ctx.lineTo(W-80,225); ctx.stroke();
+  ctx.strokeStyle='#8B1A1A'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(80,229); ctx.lineTo(W-80,229); ctx.stroke();
 
-  // Kotak foto pendaftar (pojok kanan atas area data)
-  const fotoX=W-200, fotoY=245, fotoW=120, fotoH=150;
-  ctx.strokeStyle='#C9A84C';ctx.lineWidth=1.5;ctx.strokeRect(fotoX-2,fotoY-2,fotoW+4,fotoH+4);
-  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=0.5;ctx.strokeRect(fotoX-5,fotoY-5,fotoW+10,fotoH+10);
+  // Area foto
+  var fX=W-195, fY=245, fW=120, fH=150;
+  ctx.strokeStyle='#C9A84C'; ctx.lineWidth=1.5; ctx.strokeRect(fX-2,fY-2,fW+4,fH+4);
+  ctx.strokeStyle='#8B1A1A'; ctx.lineWidth=0.5; ctx.strokeRect(fX-5,fY-5,fW+10,fH+10);
 
-  function drawRows(){
-    // Rows data — kolom kiri lebih sempit karena ada foto kanan
-    const rows=[
-      ['No. Pendaftaran',nomor],
-      ['Nama Lengkap',nama],
-      ['No. WhatsApp',wa],
-      ['Asal Sekolah',sekolah],
-      ['Program Studi',prodi],
-      ['Status','TERDAFTAR'],
-    ];
-    let y=265;
-    const maxLabelW=fotoX-100;
-    rows.forEach(([label,val],idx)=>{
-      if(idx%2===0){ctx.fillStyle='rgba(139,26,26,0.04)';ctx.fillRect(60,y-20,fotoX-70,36);}
+  function afterPhoto() {
+    ctx.textAlign='center'; ctx.fillStyle='#777'; ctx.font='10px sans-serif';
+    ctx.fillText('FOTO PENDAFTAR', fX+fW/2, fY+fH+16);
+
+    var rows=[['No. Pendaftaran',nomor],['Nama Lengkap',nama],['No. WhatsApp',wa],['Asal Sekolah',sekolah],['Program Studi',prodi],['Status','TERDAFTAR']];
+    var y=265;
+    rows.forEach(function(row,idx){
+      var label=row[0], val=row[1];
+      if(idx%2===0){ctx.fillStyle='rgba(139,26,26,0.04)';ctx.fillRect(60,y-20,fX-70,36);}
       ctx.textAlign='left';
-      ctx.fillStyle='#777';ctx.font='12px sans-serif';ctx.fillText(label,80,y);
+      ctx.fillStyle='#777'; ctx.font='12px sans-serif'; ctx.fillText(label,80,y);
       ctx.fillStyle=label==='Status'?'#8B1A1A':'#1A1A1A';
       ctx.font=label==='Status'?'bold 14px sans-serif':'14px sans-serif';
-      const maxW=fotoX-290;const words=val.split(' ');let line='',ly=y;
-      words.forEach((word,wi)=>{const t=line+word+' ';if(ctx.measureText(t).width>maxW&&wi>0){ctx.fillText(line,200,ly);line=word+' ';ly+=16;}else{line=t;}});
+      var words=val.split(' '), line='', ly=y, maxW=fX-290;
+      words.forEach(function(word,wi){var t=line+word+' ';if(ctx.measureText(t).width>maxW&&wi>0){ctx.fillText(line,200,ly);line=word+' ';ly+=16;}else{line=t;}});
       ctx.fillText(line.trim(),200,ly);
       y+=46;
     });
 
-    // Label foto
-    ctx.textAlign='center';ctx.fillStyle='#777';ctx.font='10px sans-serif';
-    ctx.fillText('FOTO PENDAFTAR',fotoX+fotoW/2,fotoY+fotoH+18);
+    y+=12; ctx.strokeStyle='#C9A84C'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(80,y); ctx.lineTo(W-80,y); ctx.stroke();
 
-    // Divider bawah
-    y+=12;ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(W-80,y);ctx.stroke();
-
-    // Tanggal & tanda tangan
-    y+=40;ctx.textAlign='center';ctx.fillStyle='#555';ctx.font='12px sans-serif';
-    const today=new Date();
-    const bln=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    y+=40; ctx.textAlign='center'; ctx.fillStyle='#555'; ctx.font='12px sans-serif';
+    var today=new Date();
+    var bln=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
     ctx.fillText('Ditetapkan di Kampus University of UN, '+today.getDate()+' '+bln[today.getMonth()]+' '+today.getFullYear(),W/2,y);
-    y+=28;ctx.fillStyle='#8B1A1A';ctx.font='bold 13px sans-serif';
+    y+=28; ctx.fillStyle='#8B1A1A'; ctx.font='bold 13px sans-serif';
     ctx.fillText('Rektor University of UN',W/2,y);
 
-    // Logo kecil di area tanda tangan (hanya lambang)
-    const sigLogo=new Image();
-    sigLogo.crossOrigin='anonymous';
-    sigLogo.onload=()=>{
-      ctx.save();
-      ctx.globalAlpha=0.25;
-      ctx.drawImage(sigLogo,W/2-35,y+5,70,70);
-      ctx.restore();
-      finishCert(ctx,W,H,y,nama);
-    };
-    sigLogo.onerror=()=>finishCert(ctx,W,H,y,nama);
+    var sigLogo=new Image(); sigLogo.crossOrigin='anonymous';
+    sigLogo.onload=function(){ctx.save();ctx.globalAlpha=0.25;ctx.drawImage(sigLogo,W/2-35,y+5,70,70);ctx.restore();finishCert(ctx,W,H,y,nama);};
+    sigLogo.onerror=function(){finishCert(ctx,W,H,y,nama);};
     sigLogo.src=document.getElementById('logo-img').src;
   }
 
-  if(fotoSrc){
-    const fotoImg=new Image();
-    fotoImg.onload=()=>{
-      ctx.save();
-      ctx.rect(fotoX,fotoY,fotoW,fotoH);ctx.clip();
-      ctx.drawImage(fotoImg,fotoX,fotoY,fotoW,fotoH);
-      ctx.restore();
-      drawRows();
+  if (fotoSrc) {
+    var fotoImg=new Image();
+    fotoImg.onload=function(){
+      ctx.save(); ctx.beginPath(); ctx.rect(fX,fY,fW,fH); ctx.clip();
+      ctx.drawImage(fotoImg,fX,fY,fW,fH); ctx.restore();
+      afterPhoto();
     };
-    fotoImg.onerror=()=>{
-      ctx.fillStyle='#eee';ctx.fillRect(fotoX,fotoY,fotoW,fotoH);
-      ctx.fillStyle='#aaa';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('Foto',fotoX+fotoW/2,fotoY+fotoH/2);
-      drawRows();
+    fotoImg.onerror=function(){
+      ctx.fillStyle='#eee'; ctx.fillRect(fX,fY,fW,fH);
+      afterPhoto();
     };
     fotoImg.src=fotoSrc;
   } else {
-    ctx.fillStyle='#eee';ctx.fillRect(fotoX,fotoY,fotoW,fotoH);
-    ctx.fillStyle='#aaa';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('Foto',fotoX+fotoW/2,fotoY+fotoH/2);
-    drawRows();
+    ctx.fillStyle='#eee'; ctx.fillRect(fX,fY,fW,fH);
+    afterPhoto();
   }
 }
 
-function finishCert(ctx,W,H,y,nama){
+function finishCert(ctx,W,H,y,nama) {
   y+=70;
   ctx.textAlign='center';
-  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(W/2-90,y);ctx.lineTo(W/2+90,y);ctx.stroke();
-  y+=16;ctx.fillStyle='#1A1A1A';ctx.font='bold 16px Georgia,serif';ctx.fillText('Mr. Ahmad',W/2,y);
-  y+=18;ctx.fillStyle='#777';ctx.font='12px sans-serif';ctx.fillText('Rektor University of UN',W/2,y);
+  ctx.strokeStyle='#8B1A1A'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(W/2-90,y); ctx.lineTo(W/2+90,y); ctx.stroke();
+  y+=16; ctx.fillStyle='#1A1A1A'; ctx.font='bold 16px Georgia,serif'; ctx.fillText('Mr. Ahmad',W/2,y);
+  y+=18; ctx.fillStyle='#777'; ctx.font='12px sans-serif'; ctx.fillText('Rektor University of UN',W/2,y);
 
-  // Stempel
-  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=2;ctx.setLineDash([4,3]);
-  ctx.beginPath();ctx.arc(W-145,H-200,56,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle='#8B1A1A'; ctx.lineWidth=2; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.arc(W-145,H-200,56,0,Math.PI*2); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=1;
-  ctx.beginPath();ctx.arc(W-145,H-200,48,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle='#8B1A1A'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.arc(W-145,H-200,48,0,Math.PI*2); ctx.stroke();
 
-  // Logo kecil di stempel
-  const stampLogo=new Image();
-  stampLogo.onload=()=>{
-    ctx.save();
-    ctx.beginPath();ctx.arc(W-145,H-200,44,0,Math.PI*2);ctx.clip();
-    ctx.globalAlpha=0.7;
-    ctx.drawImage(stampLogo,W-145-34,H-200-34,68,68);
-    ctx.restore();
-    ctx.fillStyle='#8B1A1A';ctx.font='bold 8px sans-serif';ctx.textAlign='center';
+  var stampLogo=new Image(); stampLogo.crossOrigin='anonymous';
+  stampLogo.onload=function(){
+    ctx.save(); ctx.beginPath(); ctx.arc(W-145,H-200,44,0,Math.PI*2); ctx.clip();
+    ctx.globalAlpha=0.7; ctx.drawImage(stampLogo,W-145-34,H-200-34,68,68); ctx.restore();
+    ctx.fillStyle='#8B1A1A'; ctx.font='bold 8px sans-serif'; ctx.textAlign='center';
     ctx.fillText('UNIVERSITY OF UN',W-145,H-148);
     ctx.fillText('OFFICIAL STAMP',W-145,H-138);
-    footer(ctx,W,H,nama);
+    certFooter(ctx,W,H,nama);
   };
-  stampLogo.onerror=()=>{
-    ctx.fillStyle='#8B1A1A';ctx.font='bold 13px Georgia,serif';ctx.textAlign='center';
-    ctx.fillText('UN',W-145,H-196);
-    ctx.font='8px sans-serif';ctx.fillText('OFFICIAL STAMP',W-145,H-178);
-    footer(ctx,W,H,nama);
-  };
+  stampLogo.onerror=function(){certFooter(ctx,W,H,nama);};
   stampLogo.src=document.getElementById('logo-img').src;
 }
 
-function footer(ctx,W,H,nama){
-  ctx.fillStyle='#8B1A1A';ctx.fillRect(26,H-70,W-52,44);
-  ctx.fillStyle='rgba(255,255,255,0.75)';ctx.font='11px sans-serif';ctx.textAlign='center';
+function certFooter(ctx,W,H,nama) {
+  ctx.fillStyle='#8B1A1A'; ctx.fillRect(26,H-70,W-52,44);
+  ctx.fillStyle='rgba(255,255,255,0.75)'; ctx.font='11px sans-serif'; ctx.textAlign='center';
   ctx.fillText('Kartu ini merupakan bukti sah pendaftaran SNBP University of UN 2026',W/2,H-52);
-  ctx.fillStyle='#C9A84C';ctx.font='10px sans-serif';
+  ctx.fillStyle='#C9A84C'; ctx.font='10px sans-serif';
   ctx.fillText('Harap disimpan sebagai dokumen resmi | un.ac.id/snbp',W/2,H-36);
 
-  const canvas=document.getElementById('cert-canvas');
-  setTimeout(()=>{
-    const link=document.createElement('a');
+  setTimeout(function(){
+    var link=document.createElement('a');
     link.download='Kartu_Pendaftaran_SNBP_UN_'+nama.replace(/\s+/g,'_')+'.png';
-    link.href=canvas.toDataURL('image/png');
+    link.href=document.getElementById('cert-canvas').toDataURL('image/png');
     link.click();
   },500);
 }
 </script>
+</body>
+</html>
