@@ -1,4 +1,3 @@
-
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;500;600&display=swap');
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -48,11 +47,15 @@
   .db-note{margin-top:.75rem;padding:.75rem 1rem;background:#EAF3DE;border:.5px solid #a0d090;border-radius:var(--border-radius-md);font-size:13px;color:#27500A;}
   .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
+  .photo-upload-box{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:16px;text-align:center;cursor:pointer;background:var(--color-background-secondary);transition:border-color .15s;}
+  .photo-upload-box:hover{border-color:#8B1A1A;}
+  .photo-preview{width:100px;height:120px;object-fit:cover;border-radius:6px;border:1px solid var(--color-border-secondary);display:none;margin:0 auto 8px;}
+  .photo-upload-label{font-size:13px;color:var(--color-text-secondary);display:block;}
+  .photo-icon{font-size:32px;color:var(--color-text-secondary);margin-bottom:6px;}
   @media(max-width:500px){.jgrid{grid-template-columns:1fr;}}
 </style>
 
 <div class="wrap">
-  <h2 class="sr-only">Formulir Pendaftaran SNBP University of UN</h2>
   <div class="hero">
     <div class="logo-row">
       <div class="logo-circle">
@@ -88,6 +91,20 @@
         <label>Nomor WhatsApp <span class="req">*</span></label>
         <input type="tel" id="wa" placeholder="Contoh: 08123456789" />
         <div class="hint">Nomor aktif — informasi kelulusan dikirim ke nomor ini</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-label">Foto Pendaftaran</div>
+      <div class="field">
+        <label>Upload Foto <span class="req">*</span></label>
+        <div class="photo-upload-box" id="photo-box" onclick="document.getElementById('foto-input').click()">
+          <img id="photo-preview" class="photo-preview" alt="Preview foto" />
+          <div class="photo-icon"><i class="ti ti-camera"></i></div>
+          <span class="photo-upload-label" id="photo-label">Klik untuk upload foto (format JPG/PNG, maks. 2MB)</span>
+        </div>
+        <input type="file" id="foto-input" accept="image/*" style="display:none" onchange="handlePhoto(this)" />
+        <div class="hint">Foto akan tampil di kartu pendaftaran — gunakan foto formal</div>
       </div>
     </div>
 
@@ -133,11 +150,8 @@
 <canvas id="cert-canvas" style="display:none;"></canvas>
 
 <script>
-const LOGO_B64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAADS5UlEQVR42uy9d5wcxbX+/a2q7p00Oe9qlXMgCZEkRM7ZRGOTscGAsbHBgMGBc7CNsbGxwSXnXHLOEYkgkARCJKqkqlIv07vzqe7fH7N7mJWAb2xh797ZzvdzPs/szOzuTHV3Pb/znvccgbXWsnnb3Da3zW1je+vm+7K5bW6bBWTz2Dw2C8jmsXlsFpDNY/PYLCCbx+axWUA2j81js4BsHpvH5rF5bBaQzWPz2Cwgm8fmsVlANo/NYzPAArJ5bB6bBWTz2Dw2C8jmsXlsFpDNY/PYLCCbx+axWUA2j81js4BsHpvH5rF5bB6bBWT/fxrWWrTWGGM+d9dujEFrze762TzdZvMtWB/WWq21hj4+oEjqZxclDuAFqmrLrFnVIkBRt/v9uf8LDDYLS+P4Wd8Bhiv6XKb+xkQM3yQ7PNZjZGN8e5TdVPR/o/SaRtLs8YJx0P0RM8ZF9bJJtBQkiHIJxFSJkiVaqIxBFCBb3ghhBdK4NZD1EJRRXhJIxnK5cQSsV7ySk04GEXFAoQDAJ8sD6GzknFWmD10JsHKMkAlxbDLBMYA6r0aOgGNKJnFCUiWWFxXkDhHJSAuNIoOgE3imyBD7FW6JBQxFiGUY2gVWfx';
 
-const LOGO_FULL = 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAADS5UlEQVR42uy9d5wcxZX+/a2q7p00Oe9qlXMgCZEkRM7ZRGOTscGAsbHBgMGBc7CNsbGxwSXnXHLOEYkgkARCJKqkqlIv07vzqe7fH7N7mJWAb2xh797ZyvdzPs/szOzuTHV3Pb/znvecgbXWsnnb3Da3zW1je+vm+7K5bW6bBWTz2Dw2C8jmsXlsFpDNY/PYLCCbx+axWUA2j81js4BsHpvHZgHZPDaPzQKyeWwemwVk89g8NgvI5rF5bBaQzWPz2Cwgm8fmsVlANo/NYzPAArJ5bB6bBWTz2Dw2C8jmsXlsFpDNY/PYLCCbx+axWUA2j81js4BsHpvH5rF5bBaQ/f9pWGvRWmOM+dxduzEGrTW76+fydJvNt2B9WGu11ho6+IAiqZ9dlDiAF6iqLbNmVYsARd3u9+f+LzDYLC6N42d9Bxiu6HOZ+hsTMXyT7PBYJ5ONRA==';
-
-document.getElementById('logo-img').src = 'data:image/png;base64,' + LOGO_FULL;
+document.getElementById('logo-img').src = 'https://www.image2url.com/r2/default/images/1779595336563-4293cb73-bbbb-4416-b6aa-b520d0f578e7.jpeg';
 
 const SUPABASE_URL='https://tnupudkdljjnuzwcbwky.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudXB1ZGtkbGpqbnV6d2Nid2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NTgwMjUsImV4cCI6MjA5NTEzNDAyNX0.YYtiPN8DH0TVBauGkfEt-tLhWCGb5pLF4TzVQSUpgJY';
@@ -156,7 +170,25 @@ jurusan.forEach((j,i)=>{
   grid.appendChild(d);
 });
 
-function getNomor(){
+let fotoDataURL = null;
+
+function handlePhoto(input){
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){alert('Ukuran foto maksimal 2MB.');input.value='';return;}
+  const reader = new FileReader();
+  reader.onload = function(e){
+    fotoDataURL = e.target.result;
+    const preview = document.getElementById('photo-preview');
+    preview.src = fotoDataURL;
+    preview.style.display = 'block';
+    document.querySelector('.photo-icon').style.display = 'none';
+    document.getElementById('photo-label').textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+
   const now=new Date();
   return 'UN/SNBP/'+now.getFullYear()+'/'+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9000)+1000);
 }
@@ -190,11 +222,12 @@ async function submitForm(){
   if(!wa){showErr('Harap isi nomor WhatsApp.');return;}
   if(!sekolah){showErr('Harap pilih sekolah asal.');return;}
   if(!jSel){showErr('Harap pilih program studi.');return;}
+  if(!fotoDataURL){showErr('Harap upload foto pendaftaran.');return;}
   setLoading(true);
   const nomor=getNomor();
   try{
     await saveToSupabase({nama,no_wa:wa,sekolah,program_studi:jSel.value,no_pendaftaran:nomor});
-    generateCertificate(nama,wa,sekolah,jSel.value,nomor);
+    generateCertificate(nama,wa,sekolah,jSel.value,nomor,fotoDataURL);
     document.getElementById('form-section').style.display='none';
     document.getElementById('success-section').style.display='block';
     document.getElementById('success-detail').innerHTML=`<strong>${nama}</strong><br>dari <strong>${sekolah}</strong><br>Program Studi: <strong>${jSel.value}</strong><br><br>No. Pendaftaran: <code>${nomor}</code>`;
@@ -204,7 +237,7 @@ async function submitForm(){
   }
 }
 
-function generateCertificate(nama,wa,sekolah,prodi,nomor){
+function generateCertificate(nama,wa,sekolah,prodi,nomor,fotoSrc){
   const W=794,H=1123;
   const canvas=document.getElementById('cert-canvas');
   canvas.width=W;canvas.height=H;
@@ -240,16 +273,17 @@ function generateCertificate(nama,wa,sekolah,prodi,nomor){
 
   // Load & draw ONLY logo image (lambang universitas)
   const logoImg=new Image();
+  logoImg.crossOrigin='anonymous';
   logoImg.onload=()=>{
     ctx.save();
     ctx.beginPath();ctx.arc(W/2,75,37,0,Math.PI*2);ctx.clip();
     ctx.drawImage(logoImg,W/2-37,75-37,74,74);
     ctx.restore();
-    drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor);
+    drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
   };
   logoImg.onerror=()=>{
     ctx.fillStyle='#8B1A1A';ctx.font='bold 24px serif';ctx.textAlign='center';ctx.fillText('UN',W/2,82);
-    drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor);
+    drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
   };
 
   // Gunakan logo yang di-embed
@@ -258,7 +292,7 @@ function generateCertificate(nama,wa,sekolah,prodi,nomor){
   else{logoImg.onerror();}
 }
 
-function drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor){
+function drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc){
   ctx.textAlign='center';
   // Teks di band merah
   ctx.fillStyle='#FFE87A';ctx.font='bold 19px Georgia,serif';
@@ -278,52 +312,85 @@ function drawText(ctx,W,H,nama,wa,sekolah,prodi,nomor){
   ctx.strokeStyle='#8B1A1A';ctx.lineWidth=0.5;
   ctx.beginPath();ctx.moveTo(80,229);ctx.lineTo(W-80,229);ctx.stroke();
 
-  // Rows data
-  const rows=[
-    ['No. Pendaftaran',nomor],
-    ['Nama Lengkap',nama],
-    ['No. WhatsApp',wa],
-    ['Asal Sekolah',sekolah],
-    ['Program Studi',prodi],
-    ['Status','TERDAFTAR'],
-  ];
-  let y=265;
-  rows.forEach(([label,val],idx)=>{
-    if(idx%2===0){ctx.fillStyle='rgba(139,26,26,0.04)';ctx.fillRect(60,y-20,W-120,36);}
-    ctx.textAlign='left';
-    ctx.fillStyle='#777';ctx.font='12px sans-serif';ctx.fillText(label,80,y);
-    ctx.fillStyle=label==='Status'?'#8B1A1A':'#1A1A1A';
-    ctx.font=label==='Status'?'bold 14px sans-serif':'14px sans-serif';
-    // wrap teks panjang
-    const maxW=W-290;const words=val.split(' ');let line='',ly=y;
-    words.forEach((word,wi)=>{const t=line+word+' ';if(ctx.measureText(t).width>maxW&&wi>0){ctx.fillText(line,340,ly);line=word+' ';ly+=16;}else{line=t;}});
-    ctx.fillText(line.trim(),340,ly);
-    y+=46;
-  });
+  // Kotak foto pendaftar (pojok kanan atas area data)
+  const fotoX=W-200, fotoY=245, fotoW=120, fotoH=150;
+  ctx.strokeStyle='#C9A84C';ctx.lineWidth=1.5;ctx.strokeRect(fotoX-2,fotoY-2,fotoW+4,fotoH+4);
+  ctx.strokeStyle='#8B1A1A';ctx.lineWidth=0.5;ctx.strokeRect(fotoX-5,fotoY-5,fotoW+10,fotoH+10);
 
-  // Divider bawah
-  y+=12;ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(W-80,y);ctx.stroke();
+  function drawRows(){
+    // Rows data — kolom kiri lebih sempit karena ada foto kanan
+    const rows=[
+      ['No. Pendaftaran',nomor],
+      ['Nama Lengkap',nama],
+      ['No. WhatsApp',wa],
+      ['Asal Sekolah',sekolah],
+      ['Program Studi',prodi],
+      ['Status','TERDAFTAR'],
+    ];
+    let y=265;
+    const maxLabelW=fotoX-100;
+    rows.forEach(([label,val],idx)=>{
+      if(idx%2===0){ctx.fillStyle='rgba(139,26,26,0.04)';ctx.fillRect(60,y-20,fotoX-70,36);}
+      ctx.textAlign='left';
+      ctx.fillStyle='#777';ctx.font='12px sans-serif';ctx.fillText(label,80,y);
+      ctx.fillStyle=label==='Status'?'#8B1A1A':'#1A1A1A';
+      ctx.font=label==='Status'?'bold 14px sans-serif':'14px sans-serif';
+      const maxW=fotoX-290;const words=val.split(' ');let line='',ly=y;
+      words.forEach((word,wi)=>{const t=line+word+' ';if(ctx.measureText(t).width>maxW&&wi>0){ctx.fillText(line,200,ly);line=word+' ';ly+=16;}else{line=t;}});
+      ctx.fillText(line.trim(),200,ly);
+      y+=46;
+    });
 
-  // Tanggal & tanda tangan
-  y+=40;ctx.textAlign='center';ctx.fillStyle='#555';ctx.font='12px sans-serif';
-  const today=new Date();
-  const bln=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  ctx.fillText('Ditetapkan di Kampus University of UN, '+today.getDate()+' '+bln[today.getMonth()]+' '+today.getFullYear(),W/2,y);
-  y+=28;ctx.fillStyle='#8B1A1A';ctx.font='bold 13px sans-serif';
-  ctx.fillText('Rektor University of UN',W/2,y);
+    // Label foto
+    ctx.textAlign='center';ctx.fillStyle='#777';ctx.font='10px sans-serif';
+    ctx.fillText('FOTO PENDAFTAR',fotoX+fotoW/2,fotoY+fotoH+18);
 
-  // Logo kecil di area tanda tangan (hanya lambang)
-  const sigLogo=new Image();
-  sigLogo.onload=()=>{
-    ctx.save();
-    ctx.globalAlpha=0.25;
-    ctx.drawImage(sigLogo,W/2-35,y+5,70,70);
-    ctx.restore();
-    finishCert(ctx,W,H,y,nama);
-  };
-  sigLogo.onerror=()=>finishCert(ctx,W,H,y,nama);
-  sigLogo.src=document.getElementById('logo-img').src;
+    // Divider bawah
+    y+=12;ctx.strokeStyle='#C9A84C';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(W-80,y);ctx.stroke();
+
+    // Tanggal & tanda tangan
+    y+=40;ctx.textAlign='center';ctx.fillStyle='#555';ctx.font='12px sans-serif';
+    const today=new Date();
+    const bln=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    ctx.fillText('Ditetapkan di Kampus University of UN, '+today.getDate()+' '+bln[today.getMonth()]+' '+today.getFullYear(),W/2,y);
+    y+=28;ctx.fillStyle='#8B1A1A';ctx.font='bold 13px sans-serif';
+    ctx.fillText('Rektor University of UN',W/2,y);
+
+    // Logo kecil di area tanda tangan (hanya lambang)
+    const sigLogo=new Image();
+    sigLogo.crossOrigin='anonymous';
+    sigLogo.onload=()=>{
+      ctx.save();
+      ctx.globalAlpha=0.25;
+      ctx.drawImage(sigLogo,W/2-35,y+5,70,70);
+      ctx.restore();
+      finishCert(ctx,W,H,y,nama);
+    };
+    sigLogo.onerror=()=>finishCert(ctx,W,H,y,nama);
+    sigLogo.src=document.getElementById('logo-img').src;
+  }
+
+  if(fotoSrc){
+    const fotoImg=new Image();
+    fotoImg.onload=()=>{
+      ctx.save();
+      ctx.rect(fotoX,fotoY,fotoW,fotoH);ctx.clip();
+      ctx.drawImage(fotoImg,fotoX,fotoY,fotoW,fotoH);
+      ctx.restore();
+      drawRows();
+    };
+    fotoImg.onerror=()=>{
+      ctx.fillStyle='#eee';ctx.fillRect(fotoX,fotoY,fotoW,fotoH);
+      ctx.fillStyle='#aaa';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('Foto',fotoX+fotoW/2,fotoY+fotoH/2);
+      drawRows();
+    };
+    fotoImg.src=fotoSrc;
+  } else {
+    ctx.fillStyle='#eee';ctx.fillRect(fotoX,fotoY,fotoW,fotoH);
+    ctx.fillStyle='#aaa';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('Foto',fotoX+fotoW/2,fotoY+fotoH/2);
+    drawRows();
+  }
 }
 
 function finishCert(ctx,W,H,y,nama){
