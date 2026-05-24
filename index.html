@@ -106,14 +106,12 @@
     <div class="card">
       <div class="sec-label">Foto Pendaftaran</div>
       <div class="field">
-        <label>Upload Foto <span class="req">*</span></label>
         <div class="photo-upload-box" id="photo-box" onclick="document.getElementById('foto-input').click()">
           <img id="photo-preview" class="photo-preview" alt="Preview foto"/>
           <div class="photo-icon" id="photo-icon"><i class="ti ti-camera"></i></div>
-          <span class="photo-upload-label" id="photo-label">Klik untuk upload foto (format JPG/PNG, maks. 2MB)</span>
+          <span class="photo-upload-label" id="photo-label">Klik untuk upload foto</span>
         </div>
         <input type="file" id="foto-input" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
-        <div class="hint">Foto akan tampil di kartu pendaftaran — gunakan foto formal</div>
       </div>
     </div>
 
@@ -291,7 +289,7 @@ function generateCertificate(nama, wa, sekolah, prodi, nomor, fotoSrc) {
     drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
   };
   logoImg.onerror = function() {
-    ctx.fillStyle='#8B1A1A'; ctx.font='bold 24px serif'; ctx.textAlign='center'; ctx.fillText('UN',W/2,82);
+    // fallback logo text dihapus
     drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc);
   };
   logoImg.src = document.getElementById('logo-img').src;
@@ -299,10 +297,7 @@ function generateCertificate(nama, wa, sekolah, prodi, nomor, fotoSrc) {
 
 function drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc) {
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#FFE87A'; ctx.font = 'bold 19px Georgia,serif';
-  ctx.fillText('UNIVERSITY OF UN', W/2, 50);
-  ctx.fillStyle = 'rgba(255,255,255,0.72)'; ctx.font = '10px sans-serif';
-  ctx.fillText('SELEKSI NASIONAL BERDASARKAN PRESTASI', W/2, 118);
+  // teks header dihapus
 
   ctx.fillStyle = '#8B1A1A'; ctx.font = 'bold 24px Georgia,serif';
   ctx.fillText('KARTU TANDA PENDAFTARAN', W/2, 190);
@@ -320,8 +315,7 @@ function drawContent(ctx,W,H,nama,wa,sekolah,prodi,nomor,fotoSrc) {
   ctx.strokeStyle='#8B1A1A'; ctx.lineWidth=0.5; ctx.strokeRect(fX-5,fY-5,fW+10,fH+10);
 
   function afterPhoto() {
-    ctx.textAlign='center'; ctx.fillStyle='#777'; ctx.font='10px sans-serif';
-    ctx.fillText('FOTO PENDAFTAR', fX+fW/2, fY+fH+16);
+
 
     var rows=[['No. Pendaftaran',nomor],['Nama Lengkap',nama],['No. WhatsApp',wa],['Asal Sekolah',sekolah],['Program Studi',prodi],['Status','TERDAFTAR']];
     var y=265;
@@ -391,8 +385,7 @@ function finishCert(ctx,W,H,y,nama) {
     ctx.save(); ctx.beginPath(); ctx.arc(W-145,H-200,44,0,Math.PI*2); ctx.clip();
     ctx.globalAlpha=0.7; ctx.drawImage(stampLogo,W-145-34,H-200-34,68,68); ctx.restore();
     ctx.fillStyle='#8B1A1A'; ctx.font='bold 8px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('UNIVERSITY OF UN',W-145,H-148);
-    ctx.fillText('OFFICIAL STAMP',W-145,H-138);
+
     certFooter(ctx,W,H,nama);
   };
   stampLogo.onerror=function(){certFooter(ctx,W,H,nama);};
